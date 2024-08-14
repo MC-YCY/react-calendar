@@ -1,50 +1,20 @@
-# React + TypeScript + Vite
+# react typescript vite
+一个用来回顾react，ts的仓库，顺便做一个日历组件
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+# calendar
+## props
+| 属性             | 类型                                                      | 说明         |
+|----------------|---------------------------------------------------------|------------|
+| date           | Date对象                                                  | 日历所展示日期的月份 |
+| firstDayOfWeek | number                                                  | 日期展示第一列是周几 |
+| ?onChange      | onChange?:(arg0:CalendarProps,arg1:dateTableType)=>void | 更新日期后的事件   |
+## props 自定义展示内容的
+| 属性         | 类型                                               | 说明                               |
+|------------|--------------------------------------------------|----------------------------------|
+| customWeek | customWeek?:(arg0:weekDataItemType)=>JSX.Element | 自定义渲染周内容，参数内含有Date日期对象week的index |
+| customDay  | customDay?:(arg0:dateTableCell)=>JSX.Element     | 自定展示日期每天的内容，返回每天的对象              |
 
-Currently, two official plugins are available:
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
-
-- Configure the top-level `parserOptions` property like this:
-
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
-
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
-
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
-
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+# 后续
+- 后面加入，props.data用来映射 customDay(dateTableCell)
+- 加上拖动事件交互
