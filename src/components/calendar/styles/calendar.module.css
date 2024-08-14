@@ -1,0 +1,45 @@
+.calendar{
+    width: 100%;
+    background: #fff;
+}
+.calendar-row{
+    width: 100%;
+    display: flex;
+    max-width: 100%;
+    min-width: 100%;
+}
+.calendar-row-cell{
+    width: calc(100% / 7);
+    cursor: pointer;
+    box-sizing: border-box;
+    text-align: center;
+}
+.calendar-row-cell-noMonth{
+    color: #9999998a;
+}
+.calendar-row-cell-month{
+    color: #333;
+}
+.calendar-row-cell-rect{
+    height: 42px;
+    box-sizing: border-box;
+    line-height: 42px;
+    outline: 1px solid #f1f1f1;
+    outline-offset: -2px;
+    font-size: 14px;
+}
+.calendar-week{
+    width: 100%;
+    display: flex;
+}
+.calendar-week-item{
+    width: calc(100% / 7);
+    text-align: center;
+}
+.calendar-week-item-cell{
+    box-sizing: border-box;
+    height: 38px;
+    line-height: 38px;
+    border-top: 1px solid #f1f1f1;
+    border-bottom: 1px solid #f1f1f1;
+}
