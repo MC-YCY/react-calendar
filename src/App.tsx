@@ -51,6 +51,7 @@ const App: FC = () => {
 
         <Calendar
             taskData={taskData} taskDataDateMap={taskDataDateMap}
+            isFixedRows={true}
             customDay={(cell) => {
                 return <div className={styles.customDay}>
                     <div>

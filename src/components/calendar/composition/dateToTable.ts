@@ -44,7 +44,7 @@ export const getDateTable = (props: CalendarProps): dateTableType => {
     // 计算剩余天数以填充日历网格
     let remainingDays = dateTableCount - dateArray.length;
     // 判断是否固定行数，如果不固定动态调整
-    if (!props.isFixedRows) {
+    if ('isFixedRows' in props && !props.isFixedRows) {
         if (remainingDays > 7) remainingDays = remainingDays - 7;
     }
 

@@ -5,7 +5,7 @@ export interface dateTableCell {
     year:number,
     active:boolean,
     status:number,
-    task?:Record<string,any>
+    task?:Record<string,any> | null
 }
 export type dateTableRow = dateTableCell[];
 export type dateTableType = dateTableRow[];
