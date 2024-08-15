@@ -30,6 +30,11 @@ const App: FC = () => {
         setTaskDataDateMap('d');
         setTaskData([{d:'2024/8/1',task:'内容'}])
     }
+
+    const [open,setOpen] = useState(true);
+    const clickItem = (item) =>{
+        console.log(item)
+    }
     return <>
         {date.getMonth() + 1}月
         <div className={styles.buts}>
@@ -41,8 +46,11 @@ const App: FC = () => {
             }
             <button onClick={getCalendarRef}>ref current methods</button>
             <button onClick={setTaskDataFn}>修改task数据</button>
+            <button onClick={()=>setOpen(!open)}>toggole</button>
         </div>
-        <Calendar open={true} cellHeight={100} taskData={taskData} taskDataDateMap={taskDataDateMap} isFixedRows={false} onChange={(param, dateTable) => syncProp(param, dateTable)} ref={calendar} date={date}
+        <Calendar open={open}
+                  onClick={clickItem}
+                  cellHeight={42} taskData={taskData} taskDataDateMap={taskDataDateMap} isFixedRows={false} onChange={(param, dateTable) => syncProp(param, dateTable)} ref={calendar} date={date}
                   firstDayOfWeek={firstDay}></Calendar>
 
         <br/>

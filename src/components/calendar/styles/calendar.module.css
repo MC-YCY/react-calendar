@@ -1,23 +1,8 @@
 .calendar {
     width: 100%;
     background: #fff;
-    --cellHeight:initial;
-    --tableHeight:initial;
-    --hideTableHeight:initial;
-}
-.calendar-layer{
-    width: 100%;
-    position: relative;
-    height: var(--tableHeight, auto);
-    overflow: hidden;
-    transition: .35s 0s height linear;
 }
 
-.calendar-table {
-    width: 100%;
-    position: absolute;
-    transition: top 0.35s linear;
-}
 
 .calendar-row {
     width: 100%;
@@ -27,7 +12,6 @@
 }
 
 
-
 .calendar-row-cell {
     width: calc(100% / 7);
     cursor: pointer;
@@ -35,6 +19,7 @@
     text-align: center;
     height: var(--cellHeight, 50px);
 }
+
 .calendar-row-cell-rect {
     box-sizing: border-box;
     outline: 1px solid #f1f1f1;
@@ -78,26 +63,47 @@
 }
 
 
+.calendar-layer {
+    --cellHeight: initial;
+    --tableHeight: initial;
+    --hideTableHeight: initial;
+
+    --height:var(--tableHeight, 0);
+    --top:0;
+    --transition:all .3s ease-in-out;
+
+    width: 100%;
+    position: relative;
+    height: var(--height, auto);
+    overflow: hidden;
+}
+
+.calendar-table {
+    width: 100%;
+    position: absolute;
+    top: var(--top);
+}
 
 .open {
-    height: var(--cellHeight) !important;
-    transition: .35s 0s height linear;
+    --top:0;
+    --height:var(--tableHeight);
+    transition:var(--transition);
 }
-.open .calendar-table{
-    top:var(--hideTableHeight) !important;
+
+.close {
+    --tableHeight: var(--cellHeight);
+    --top: var(--hideTableHeight);
+    transition:var(--transition);
 }
-.open .calendar-row{
-    opacity: 0;
-    transition: 0s .35s opacity linear;
+.open .calendar-table,
+.close .calendar-table{
+    transition:var(--transition);
 }
-.calendar-row-open{
-    position:sticky;
+
+.calendar-row-open {
+    position: sticky;
     top: 0;
     z-index: 99;
-    opacity: 1 !important;
-    background:skyblue;
+    background: skyblue;
 }
-.open .clear-opacity-row {
-    opacity: 1 !important;
-    transition: none !important;
-}
+

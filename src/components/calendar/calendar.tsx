@@ -10,7 +10,7 @@ const Calendar = forwardRef<refMethods, CalendarProps>((props, ref) => {
     const [DayList, setDayList] = useState<dateTableType>([]);
     const [selected, setSelected] = useState<number>();
     const [tableHeight, setTableHeight] = useState<number>(0);
-    const [open, setOpen] = useState<boolean>(false);
+    const [open, setOpen] = useState<boolean>();
     const setDate = (prop: CalendarProps) => {
         let {data, selected: sel} = getDateTable(prop);
         setSelected(sel);
@@ -21,6 +21,7 @@ const Calendar = forwardRef<refMethods, CalendarProps>((props, ref) => {
 
     useEffect(() => {
         setDate(props);
+        setOpen(props.open);
     }, [props]);
 
     useImperativeHandle(ref, () => ({
@@ -39,7 +40,7 @@ const Calendar = forwardRef<refMethods, CalendarProps>((props, ref) => {
         let tableH: string | null;
         let hideTableH: string | null;
         if (cellH) {
-            tableH = (parseFloat(cellH) * DayList.length) + mouseEvent.moveY + 'px';
+            tableH = (parseFloat(cellH) * DayList.length) + 'px';
             hideTableH = -parseFloat(cellH) * (DayList.length - 1) + 'px';
         } else {
             tableH = null;
@@ -59,75 +60,105 @@ const Calendar = forwardRef<refMethods, CalendarProps>((props, ref) => {
     const [mouseEvent, setMouseEvent] = useState<any>({
         startY: 0,
         moveY: 0,
+        endY: 0,
     });
     const [moveNum, setMoveNum] = useState(0);
+    const [clearTransition, setClearTransition] = useState(false);
     const calendarTable = useRef<HTMLDivElement>(null);
     const calendarLayer = useRef<HTMLDivElement>(null);
-    const mouseDown = (event: React.MouseEvent<HTMLDivElement, MouseEvent>, record: any, prop: any, index: number) => {
+    const mouseDown = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
         setIsDown(true);
         setMoveNum(0);
-        if (event.button === 0) {
-            mouseEvent.startY = event.pageY;
-            setMouseEvent(deepClone(mouseEvent));
-        }
+        mouseEvent.startY = event.pageY;
+        mouseEvent.moveY = 0;
+        setMouseEvent(deepClone(mouseEvent));
+        setClearTransition(false);
     }
     const mouseUp = (_, record: any) => {
         setIsDown(false);
         mouseEvent.endY = _.clientY;
-        mouseEvent.moveY = _.clientY;
         mouseEvent.moveY = 0;
-        initTransition();
-        if(!calendarTable.current) return;
-        [...calendarTable.current.querySelectorAll('.calendar-row')].map(d => {
-            d.classList.remove('clear-opacity');
-        })
-        if (moveNum <= 5) {
-            props.onClick && props.onClick(record);
-        }
-        if(!props.cellHeight) return;
-        let difference = mouseEvent.startY - mouseEvent.endY;
-        if (difference > props.cellHeight) {
-            setOpen(true)
-        } else if (difference < -(props.cellHeight * .15)) {
-            setOpen(false)
-        }
         setMouseEvent(deepClone(mouseEvent));
+        if (moveNum < 5) {
+            props.onClick && props.onClick(record);
+        } else {
+            if(!props.cellHeight) return;
+            if(!calendarTable.current) return;
+            if(!calendarLayer.current) return;
+            let dif = mouseEvent.startY - mouseEvent.endY;
+            if(dif > props.cellHeight){
+                setOpen(false);
+                calendarLayer.current.style.setProperty('--top', 'var(--hideTableHeight)');
+                calendarLayer.current.style.setProperty('--height','var(--cellHeight)' );
+            }else{
+                setOpen(true);
+                calendarLayer.current.style.setProperty('--top', '0');
+                calendarLayer.current.style.setProperty('--height', 'var(--tableHeight)');
+            }
+        }
+        setClearTransition(false);
     }
     const mouseMove = (event: React.MouseEvent<HTMLDivElement, MouseEvent>, record: any, prop: any, index: number) => {
         if (!isDown) return;
         setMoveNum(moveNum + 1);
         if (moveNum > 5) {
-            calendarMove(event);
+            setClearTransition(true);
+            if (!props.cellHeight) return;
+            if (!calendarTable.current) return;
+            if (!calendarLayer.current) return;
+
+            let offsetY = event.pageY - mouseEvent.startY;
+            let dif = event.pageY - mouseEvent.startY;
+
+            if(open){
+                // 滑动中如果已经到最顶部就让toggle(visible)为true收起状态
+                if (offsetY < -(tableHeight - props.cellHeight)) {
+                    offsetY = -(tableHeight - props.cellHeight);
+                    setOpen(false)
+                }
+                if (dif > 0) {
+                    offsetY = 0;
+                }
+            }else{
+                if (dif < 0) {
+                    offsetY = 0;
+                }
+                offsetY = -(tableHeight - props.cellHeight - offsetY);
+                let daybox_height = (tableHeight + offsetY)
+                if (daybox_height > tableHeight) {
+                    daybox_height = tableHeight;
+                    setOpen(true)
+                }
+                calendarLayer.current.style.setProperty('--height', daybox_height + 'px');
+            }
+
+            let minY = -tableHeight;
+            let maxY = 0;
+            offsetY = Math.max(minY, Math.min(offsetY, maxY));
+
+            mouseEvent.moveY = offsetY;
+            setMouseEvent(deepClone(mouseEvent));
+
+            calendarLayer.current.style.setProperty('--top', offsetY + 'px');
+            calendarLayer.current.style.setProperty('--height', tableHeight + offsetY + 'px');
         }
     }
 
-    const calendarMove = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-        if (!calendarTable.current) return;
-        if (!calendarLayer.current) return;
-        if (!props.cellHeight) return;
-
-        // calendarTable.current.style.transition = 'none';
-        // calendarLayer.current.style.transition = 'none';
-
-        // let moveY = event.pageY - mouseEvent.startY;
-        // moveY = Math.max(-(tableHeight - props.cellHeight), Math.min(moveY, tableHeight));
-        // if(moveY < 0){
-        //     calendarTable.current.style.top = moveY + 'px';
-        // }
-        // mouseEvent.moveY = moveY;
-        // setMouseEvent(deepClone(mouseEvent));
+    const propsOpenToClassName = () => {
+        if ('open' in props) {
+            let openClassName = `${open ? styles.open : styles.close}`;
+            return `${styles.calendarLayer} ${!clearTransition && openClassName}`
+        } else {
+            return `${styles.calendarLayer}`
+        }
     }
 
-    const initTransition = () =>{
-        if(!calendarTable.current) return;
-        if(!calendarLayer.current) return;
-        calendarTable.current?.removeAttribute('style');
-        calendarLayer.current.style.transition = '.35s 0s height linear';
-    }
+    useEffect(() => {
+    }, []);
 
-    return <div className={styles.calendar} style={setStyleCellHeight()}>
+    return <div className={styles.calendar}>
         <CalendarWeek firstDayOfWeek={props.firstDayOfWeek} customWeek={props.customWeek}></CalendarWeek>
-        <div className={`${styles.calendarLayer} ${open ? styles.open : null}`} ref={calendarLayer}>
+        <div className={propsOpenToClassName()} style={setStyleCellHeight()} ref={calendarLayer}>
             <div className={styles.calendarTable} ref={calendarTable}>
                 {
                     DayList.map((row: dateTableRow, index: number) => {
