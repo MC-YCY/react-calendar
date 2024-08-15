@@ -18,6 +18,18 @@ const App: FC = () => {
     const syncProp = (prop:CalendarChangeParamType,dateTable:DateTableType) =>{
         console.log(prop,dateTable)
     }
+
+    const [taskData,setTaskData] = useState<any>([
+        {
+            date:'2024/8/14',
+            task:'123'
+        }
+    ])
+    const [taskDataDateMap,setTaskDataDateMap] = useState('date')
+    const setTaskDataFn = () =>{
+        setTaskDataDateMap('d');
+        setTaskData([{d:'2024/8/1',task:'内容'}])
+    }
     return <>
         {date.getMonth() + 1}月
         <div className={styles.buts}>
@@ -28,8 +40,9 @@ const App: FC = () => {
                 })
             }
             <button onClick={getCalendarRef}>ref current methods</button>
+            <button onClick={setTaskDataFn}>修改task数据</button>
         </div>
-        <Calendar onChange={(param, dateTable) => syncProp(param, dateTable)} ref={calendar} date={date}
+        <Calendar taskData={taskData} taskDataDateMap={taskDataDateMap} isFixedRows={false} onChange={(param, dateTable) => syncProp(param, dateTable)} ref={calendar} date={date}
                   firstDayOfWeek={firstDay}></Calendar>
 
         <br/>
@@ -37,8 +50,16 @@ const App: FC = () => {
         <br/>
 
         <Calendar
+            taskData={taskData} taskDataDateMap={taskDataDateMap}
             customDay={(cell) => {
-                return <div>{cell.day + '-' + cell.month}</div>
+                return <div className={styles.customDay}>
+                    <div>
+                        { cell.day+'' }
+                    </div>
+                    <div>
+                        { cell.task && 'task:'+cell.task.task }
+                    </div>
+                </div>
             }}
             customWeek={(week) => {
                 return <>{['A','B','C','D','E','F','G'][week.weekIndex]}</>

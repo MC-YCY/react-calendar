@@ -11,6 +11,7 @@ const addZero = (n: number) => {
 
 export const getDateTable = (props: CalendarProps): dateTableType => {
     const {date, firstDayOfWeek} = props;
+    let dateTableCount: number = 42;
 
     const year = date.getFullYear();
     const month = date.getMonth();
@@ -41,13 +42,24 @@ export const getDateTable = (props: CalendarProps): dateTableType => {
     }
 
     // 计算剩余天数以填充日历网格
-    const remainingDays = 42 - dateArray.length;
+    let remainingDays = dateTableCount - dateArray.length;
+    // 判断是否固定行数，如果不固定动态调整
+    if (!props.isFixedRows) {
+        if (remainingDays > 7) remainingDays = remainingDays - 7;
+    }
 
     // 下个月的天数
     const [nextMonth, nextMonthYear] = adjustMonthYear(month + 1, year);
     for (let i = 1; i <= remainingDays; i++) {
         dateArray.push(createDateObject(nextMonthYear, nextMonth, i, 0));
     }
+
+    if (props.taskData && props.taskData.length > 0) {
+        const mappings = taskDataMappingDateTableCell(dateArray, props);
+        dateArray.length = 0;
+        dateArray.push(...mappings);
+    }
+
     // 将日期数组转换为周
     return convertToWeeks(dateArray);
 };
@@ -82,3 +94,30 @@ const convertToWeeks = (dates: dateTableRow): dateTableType => {
     }
     return weeks;
 };
+
+const taskDataMappingDateTableCell = (tableCell: dateTableRow, prop: CalendarProps): dateTableRow => {
+    let taskDateKey = 'date';
+    if (prop.taskDataDateMap) {
+        taskDateKey = prop.taskDataDateMap;
+    }
+    return tableCell.map((item: dateTableCell) => {
+        let itemYear = Number(item.year);
+        let itemMonth = Number(item.month);
+        let itemDay = Number(item.day);
+        let itemDate = new Date(itemYear, itemMonth, itemDay);
+        let taskFind = prop.taskData && prop.taskData.find((task) => {
+            let taskDate = new Date(task[taskDateKey]);
+            if (itemDate && taskDate &&
+                (itemDate.getMonth() == taskDate.getMonth()) &&
+                (itemDate.getFullYear() == taskDate.getFullYear()) &&
+                (itemDate.getDate() == taskDate.getDate())
+            ) {
+                return task;
+            }
+        }) || null;
+        return {
+            ...item,
+            task: taskFind
+        }
+    })
+}

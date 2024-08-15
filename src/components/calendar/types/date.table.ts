@@ -1,5 +1,12 @@
-export type dateTableCellValue = string | number | null | undefined | boolean;
-export type dateTableCell = Record<string, dateTableCellValue>;
+export interface dateTableCell {
+    dateStr:string,
+    day:number,
+    month:number,
+    year:number,
+    active:boolean,
+    status:number,
+    task?:Record<string,any>
+}
 export type dateTableRow = dateTableCell[];
 export type dateTableType = dateTableRow[];
 export type refMethods = {

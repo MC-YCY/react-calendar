@@ -8,6 +8,9 @@ export interface renderCustom{
 export interface CalendarProps extends renderCustom{
     date:Date,
     firstDayOfWeek:number,
+    isFixedRows?:boolean,
+    taskData?:Record<string,any>[],
+    taskDataDateMap?:string,
     onChange?:(arg0:CalendarProps,arg1:dateTableType)=>void,
 }
 export interface CalendarRowProps extends renderCustom{
