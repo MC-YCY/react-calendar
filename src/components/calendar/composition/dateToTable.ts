@@ -1,4 +1,4 @@
-import {CalendarProps, dateTableCell, dateTableRow, dateTableType} from '../types';
+import {CalendarProps, dateTableCell, dateTableResult, dateTableRow, dateTableType} from '../types';
 import {getDays} from './dateListMethod.ts'; // Assuming these utilities are defined
 
 const addZero = (n: number) => {
@@ -9,9 +9,10 @@ const addZero = (n: number) => {
     }
 }
 
-export const getDateTable = (props: CalendarProps): dateTableType => {
+export const getDateTable = (props: CalendarProps): dateTableResult => {
     const {date, firstDayOfWeek} = props;
     let dateTableCount: number = 42;
+    let selected:number = 0;
 
     const year = date.getFullYear();
     const month = date.getMonth();
@@ -39,6 +40,9 @@ export const getDateTable = (props: CalendarProps): dateTableType => {
     // 当月的天数
     for (let i = 1; i <= daysInCurrentMonth; i++) {
         dateArray.push(createDateObject(year, month, i, 1, i === day));
+        if (day == i) {
+            selected = Math.ceil((i + startPrevMonthDays) / 7);
+        }
     }
 
     // 计算剩余天数以填充日历网格
@@ -61,7 +65,10 @@ export const getDateTable = (props: CalendarProps): dateTableType => {
     }
 
     // 将日期数组转换为周
-    return convertToWeeks(dateArray);
+    return {
+        selected:selected,
+        data:convertToWeeks(dateArray)
+    };
 };
 
 const adjustMonthYear = (month: number, year: number): [number, number] => {

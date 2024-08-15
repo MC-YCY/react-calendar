@@ -42,31 +42,31 @@ const App: FC = () => {
             <button onClick={getCalendarRef}>ref current methods</button>
             <button onClick={setTaskDataFn}>修改task数据</button>
         </div>
-        <Calendar taskData={taskData} taskDataDateMap={taskDataDateMap} isFixedRows={false} onChange={(param, dateTable) => syncProp(param, dateTable)} ref={calendar} date={date}
+        <Calendar open={true} cellHeight={100} taskData={taskData} taskDataDateMap={taskDataDateMap} isFixedRows={false} onChange={(param, dateTable) => syncProp(param, dateTable)} ref={calendar} date={date}
                   firstDayOfWeek={firstDay}></Calendar>
 
         <br/>
         <br/>
         <br/>
 
-        <Calendar
-            taskData={taskData} taskDataDateMap={taskDataDateMap}
-            isFixedRows={true}
-            customDay={(cell) => {
-                return <div className={styles.customDay}>
-                    <div>
-                        { cell.day+'' }
-                    </div>
-                    <div>
-                        { cell.task && 'task:'+cell.task.task }
-                    </div>
-                </div>
-            }}
-            customWeek={(week) => {
-                return <>{['A','B','C','D','E','F','G'][week.weekIndex]}</>
-            }}
-            onChange={(param, dateTable) => syncProp(param, dateTable)} ref={calendar} date={date}
-            firstDayOfWeek={firstDay}></Calendar>
+        {/*<Calendar*/}
+        {/*    taskData={taskData} taskDataDateMap={taskDataDateMap}*/}
+        {/*    isFixedRows={true}*/}
+        {/*    customDay={(cell) => {*/}
+        {/*        return <div className={styles.customDay}>*/}
+        {/*            <div>*/}
+        {/*                { cell.day+'' }*/}
+        {/*            </div>*/}
+        {/*            <div>*/}
+        {/*                { cell.task && 'task:'+cell.task.task }*/}
+        {/*            </div>*/}
+        {/*        </div>*/}
+        {/*    }}*/}
+        {/*    customWeek={(week) => {*/}
+        {/*        return <>{['A','B','C','D','E','F','G'][week.weekIndex]}</>*/}
+        {/*    }}*/}
+        {/*    onChange={(param, dateTable) => syncProp(param, dateTable)} ref={calendar} date={date}*/}
+        {/*    firstDayOfWeek={firstDay}></Calendar>*/}
     </>
 }
 export default App;

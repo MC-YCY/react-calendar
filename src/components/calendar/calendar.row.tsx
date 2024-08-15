@@ -16,10 +16,21 @@ const renderCell = (record:dateTableCell,customDay:CalendarRowProps['customDay']
 }
 
 const CalendarRow:FC<CalendarRowProps> = (props) =>{
-    return <div className={styles.calendarRow}>
+    const setClassName = () =>{
+        if(props.selected === props.rowIndex){
+            return `${styles.calendarRow} ${styles.calendarRowOpen}`;
+        }else{
+            return styles.calendarRow;
+        }
+    }
+    return <div className={setClassName()}>
         {
             props.list.map((record:dateTableCell,index:number)=>{
-                return <div key={index} className={styles.calendarRowCell}>
+                return <div
+                    onMouseDown={(event)=>props.mouseDown(event,record,props,index)}
+                    onMouseMove={(event)=>props.mouseMove(event,record,props,index)}
+                    onMouseUp={(event)=>props.mouseUp(event,record,props,index)}
+                    key={index} className={styles.calendarRowCell}>
                     {renderCell(record,props.customDay)}
                 </div>
             })

@@ -9,6 +9,10 @@ export interface dateTableCell {
 }
 export type dateTableRow = dateTableCell[];
 export type dateTableType = dateTableRow[];
+export interface dateTableResult {
+    selected:number,
+    data:dateTableType,
+}
 export type refMethods = {
     dateTable:dateTableType,
 }
