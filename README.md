@@ -11,12 +11,15 @@
 | ?taskData        | Record<string,any>[]                                    | 用来映射任务到每天的对象中，数组列表中要含有一个日期格式的字符串，默认获取date |
 | ?taskDataDateMap | string                                                  | 修改获取任务列表获取日期的字段                           |
 | ?onChange        | onChange?:(arg0:CalendarProps,arg1:dateTableType)=>void | 更新日期后的事件                                  |
+| ?open            | boolean                                                 | 带上该参数开启mouse交互，可上下拖动日历收缩只展示当前周            |
+| ?onToggle        | (arg0:boolean)=>void                                    | 组件内mouse交互更新open触发                        |
+| ?cellHeight      | number                                                  | 开启mouse交互需要设置每格的高度，在设置了open参数时才生效         |
+| ?onClick         | (arg0:dateTableCell)=>void                              | 格子点击事件                                    |
 ## props 自定义展示内容的
 | 属性         | 类型                                               | 说明                               |
 |------------|--------------------------------------------------|----------------------------------|
 | customWeek | customWeek?:(arg0:weekDataItemType)=>JSX.Element | 自定义渲染周内容，参数内含有Date日期对象week的index |
 | customDay  | customDay?:(arg0:dateTableCell)=>JSX.Element     | 自定展示日期每天的内容，返回每天的对象              |
-
 
 # 后续
 - 后面加入，props.data用来映射 customDay(dateTableCell)
