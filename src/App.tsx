@@ -36,7 +36,7 @@ const App: FC = () => {
         console.log(item)
     }
     return <>
-        {date.getMonth() + 1}月
+
         <div className={styles.buts}>
             <button onClick={setFn}>set date</button>
             {
@@ -46,7 +46,12 @@ const App: FC = () => {
             }
             <button onClick={getCalendarRef}>ref current methods</button>
             <button onClick={setTaskDataFn}>修改task数据</button>
-            <button onClick={()=>setOpen(!open)}>toggole</button>
+            <button onClick={() => setOpen(!open)}>toggole</button>
+        </div>
+
+        <div className={styles.buts}>
+            {date.getFullYear()}年
+            {date.getMonth() + 1}月
         </div>
 
         <div className={styles.main}>
@@ -57,12 +62,28 @@ const App: FC = () => {
                 onChange={(param, dateTable) => syncProp(param, dateTable)} ref={calendar} date={date}
                 firstDayOfWeek={firstDay}></Calendar>
 
-
-            <br/>
-            <br/>
             <br/>
 
+            不开启mouse交互的
             <Calendar
+                onClick={clickItem}
+                cellHeight={42} taskData={taskData} taskDataDateMap={taskDataDateMap} isFixedRows={false}
+                onChange={(param, dateTable) => syncProp(param, dateTable)} ref={calendar} date={date}
+                firstDayOfWeek={firstDay}></Calendar>
+            <br/>
+            自定义渲染week，cell
+            <Calendar
+                customWeek={(cell) => {
+                    return <div
+                        className={styles.customWeek}>{['A', 'B', 'C', 'D', 'E', 'F', 'G'][cell.weekIndex]}</div>
+                }}
+                customDay={(day) => {
+                    let dayClasName = `${styles.customDay} ${day.active ? styles.customDayActive : ''}`
+                    return <div className={dayClasName}>
+                        <div className={styles.customDayTitle}>{day.day}</div>
+                        <div className={styles.customDayTask}>{day.task && 'task:' + day.task.task}</div>
+                    </div>
+                }}
                 onClick={clickItem}
                 cellHeight={42} taskData={taskData} taskDataDateMap={taskDataDateMap} isFixedRows={false}
                 onChange={(param, dateTable) => syncProp(param, dateTable)} ref={calendar} date={date}

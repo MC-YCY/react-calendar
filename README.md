@@ -1,6 +1,8 @@
 # react typescript vite
 一个用来回顾react，ts的仓库，顺便做一个日历组件
 
+![这是图片](./src/assets/demo.png)
+
 # calendar
 ## props
 | 属性               | 类型                                                      | 说明                                        |
@@ -15,7 +17,9 @@
 | ?onToggle        | (arg0:boolean)=>void                                    | 组件内mouse交互更新open触发                        |
 | ?cellHeight      | number                                                  | 开启mouse交互需要设置每格的高度，在设置了open参数时才生效         |
 | ?onClick         | (arg0:dateTableCell)=>void                              | 格子点击事件                                    |
+
 ## props 自定义展示内容的
+
 | 属性         | 类型                                               | 说明                               |
 |------------|--------------------------------------------------|----------------------------------|
 | customWeek | customWeek?:(arg0:weekDataItemType)=>JSX.Element | 自定义渲染周内容，参数内含有Date日期对象week的index |

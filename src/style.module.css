@@ -14,11 +14,29 @@
     font-weight: 600;
 }
 .custom-day{
-    outline: 1px solid skyblue;
+    outline: 1px solid #1677ff1a;
     outline-offset: -2px;
     height: 100%;
+}
+.custom-day-active{
+    background: #1677ff1a;
+}
+.custom-day-title{
+    color: #333;
+}
+.custom-day-task{
+    color:#1677ff;
+    font-weight: 600;
+    font-size: 12px;
 }
 .main{
     width:1000px;
     margin:40px auto 0;
+}
+.custom-week{
+    height: 50px;
+    background: #1677ff1a;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
