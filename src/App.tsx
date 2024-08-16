@@ -48,11 +48,16 @@ const App: FC = () => {
             <button onClick={setTaskDataFn}>修改task数据</button>
             <button onClick={()=>setOpen(!open)}>toggole</button>
         </div>
+
+        <div className={styles.main}>
+
         <Calendar
             open={open}
                   onClick={clickItem}
                   cellHeight={42} taskData={taskData} taskDataDateMap={taskDataDateMap} isFixedRows={false} onChange={(param, dateTable) => syncProp(param, dateTable)} ref={calendar} date={date}
                   firstDayOfWeek={firstDay}></Calendar>
+        </div>
+
 
         <br/>
         <br/>

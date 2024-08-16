@@ -1,6 +1,7 @@
 .buts{
     display: flex;
     flex-wrap: wrap;
+    justify-content: center;
 }
 .buts button{
     margin: 4px 10px;
@@ -16,4 +17,8 @@
     outline: 1px solid skyblue;
     outline-offset: -2px;
     height: 100%;
+}
+.main{
+    width:1000px;
+    margin:40px auto 0;
 }
