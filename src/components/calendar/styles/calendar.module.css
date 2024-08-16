@@ -54,8 +54,8 @@
 
 .calendar-week-item-cell {
     box-sizing: border-box;
-    border-top: 1px solid #f1f1f1;
-    border-bottom: 1px solid #f1f1f1;
+    border-top: 1px solid #fafafa1a;
+    border-bottom: 1px solid #fafafa1a;
     height: 38px;
     display: flex;
     justify-content: center;
@@ -68,42 +68,53 @@
     --tableHeight: initial;
     --hideTableHeight: initial;
 
-    --height:var(--tableHeight, 0);
+    --height:var(--tableHeight, auto);
     --top:0;
     --transition:all .3s ease-in-out;
 
     width: 100%;
     position: relative;
-    height: var(--height, auto);
+    height: auto;
     overflow: hidden;
 }
 
 .calendar-table {
     width: 100%;
-    position: absolute;
-    top: var(--top);
 }
 
 .open {
-    --top:0;
-    --height:var(--tableHeight);
+    --top:0 !important;
+    --height:var(--tableHeight) !important;
     transition:var(--transition);
 }
 
 .close {
-    --tableHeight: var(--cellHeight);
-    --top: var(--hideTableHeight);
+    --tableHeight: var(--cellHeight) !important;
+    --top: var(--hideTableHeight) !important;
     transition:var(--transition);
 }
+
+.toggle{
+    height: var(--height);
+}
+.toggle .calendar-table{
+    position: absolute;
+    top: var(--top);
+}
+
 .open .calendar-table,
 .close .calendar-table{
     transition:var(--transition);
+    top: var(--top);
 }
 
 .calendar-row-open {
     position: sticky;
     top: 0;
     z-index: 99;
-    background: skyblue;
+    background: white;
+}
+.calendar-row-open .calendar-row-cell-rect {
+    outline-color: #1677ff;
 }
 

@@ -67,6 +67,7 @@ const Calendar = forwardRef<refMethods, CalendarProps>((props, ref) => {
     const calendarTable = useRef<HTMLDivElement>(null);
     const calendarLayer = useRef<HTMLDivElement>(null);
     const mouseDown = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+        if(!('open' in props)) return;
         setIsDown(true);
         setMoveNum(0);
         mouseEvent.startY = event.pageY;
@@ -74,7 +75,7 @@ const Calendar = forwardRef<refMethods, CalendarProps>((props, ref) => {
         setMouseEvent(deepClone(mouseEvent));
         setClearTransition(false);
     }
-    const mouseUp = (_, record: any) => {
+    const mouseUp = (_:any, record: any) => {
         setIsDown(false);
         mouseEvent.endY = _.clientY;
         mouseEvent.moveY = 0;
@@ -95,10 +96,13 @@ const Calendar = forwardRef<refMethods, CalendarProps>((props, ref) => {
                 calendarLayer.current.style.setProperty('--top', '0');
                 calendarLayer.current.style.setProperty('--height', 'var(--tableHeight)');
             }
+            if(open != null){
+                props.onToggle && props.onToggle(open);
+            }
         }
         setClearTransition(false);
     }
-    const mouseMove = (event: React.MouseEvent<HTMLDivElement, MouseEvent>, record: any, prop: any, index: number) => {
+    const mouseMove = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
         if (!isDown) return;
         setMoveNum(moveNum + 1);
         if (moveNum > 5) {
@@ -124,12 +128,12 @@ const Calendar = forwardRef<refMethods, CalendarProps>((props, ref) => {
                     offsetY = 0;
                 }
                 offsetY = -(tableHeight - props.cellHeight - offsetY);
-                let daybox_height = (tableHeight + offsetY)
-                if (daybox_height > tableHeight) {
-                    daybox_height = tableHeight;
+                let calendarLayerHeight = (tableHeight + offsetY)
+                if (calendarLayerHeight > tableHeight) {
+                    calendarLayerHeight = tableHeight;
                     setOpen(true)
                 }
-                calendarLayer.current.style.setProperty('--height', daybox_height + 'px');
+                calendarLayer.current.style.setProperty('--height', calendarLayerHeight + 'px');
             }
 
             let minY = -tableHeight;
@@ -147,14 +151,11 @@ const Calendar = forwardRef<refMethods, CalendarProps>((props, ref) => {
     const propsOpenToClassName = () => {
         if ('open' in props) {
             let openClassName = `${open ? styles.open : styles.close}`;
-            return `${styles.calendarLayer} ${!clearTransition && openClassName}`
+            return `${styles.calendarLayer} ${clearTransition ? '' : openClassName} ${styles.toggle}`
         } else {
             return `${styles.calendarLayer}`
         }
     }
-
-    useEffect(() => {
-    }, []);
 
     return <div className={styles.calendar}>
         <CalendarWeek firstDayOfWeek={props.firstDayOfWeek} customWeek={props.customWeek}></CalendarWeek>

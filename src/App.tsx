@@ -32,7 +32,7 @@ const App: FC = () => {
     }
 
     const [open,setOpen] = useState(true);
-    const clickItem = (item) =>{
+    const clickItem = (item:any) =>{
         console.log(item)
     }
     return <>
@@ -48,7 +48,8 @@ const App: FC = () => {
             <button onClick={setTaskDataFn}>修改task数据</button>
             <button onClick={()=>setOpen(!open)}>toggole</button>
         </div>
-        <Calendar open={open}
+        <Calendar
+            open={open}
                   onClick={clickItem}
                   cellHeight={42} taskData={taskData} taskDataDateMap={taskDataDateMap} isFixedRows={false} onChange={(param, dateTable) => syncProp(param, dateTable)} ref={calendar} date={date}
                   firstDayOfWeek={firstDay}></Calendar>
