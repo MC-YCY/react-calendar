@@ -20,7 +20,7 @@ const renderCell = (record:dateTableCell,customDay:CalendarRowProps['customDay']
 
 const CalendarRow:FC<CalendarRowProps> = (props) =>{
     const setClassName = () =>{
-        if(props.selected === props.rowIndex){
+        if(props.selected === props.rowIndex+1){
             return `${styles.calendarRow} ${styles.calendarRowOpen}`;
         }else{
             return styles.calendarRow;
