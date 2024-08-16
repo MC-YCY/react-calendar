@@ -10,6 +10,9 @@ const renderCell = (record:dateTableCell,customDay:CalendarRowProps['customDay']
     }else{
         className += styles.calendarRowCellMonth
     }
+    if(record.active){
+        className += ` ${styles.calendarRowCellActive}`;
+    }
     return <div className={className}>
         {record.day}
     </div>

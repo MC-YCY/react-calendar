@@ -50,18 +50,25 @@ const App: FC = () => {
         </div>
 
         <div className={styles.main}>
+            <Calendar
+                open={open}
+                onClick={clickItem}
+                cellHeight={42} taskData={taskData} taskDataDateMap={taskDataDateMap} isFixedRows={false}
+                onChange={(param, dateTable) => syncProp(param, dateTable)} ref={calendar} date={date}
+                firstDayOfWeek={firstDay}></Calendar>
 
-        <Calendar
-            open={open}
-                  onClick={clickItem}
-                  cellHeight={42} taskData={taskData} taskDataDateMap={taskDataDateMap} isFixedRows={false} onChange={(param, dateTable) => syncProp(param, dateTable)} ref={calendar} date={date}
-                  firstDayOfWeek={firstDay}></Calendar>
+
+            <br/>
+            <br/>
+            <br/>
+
+            <Calendar
+                onClick={clickItem}
+                cellHeight={42} taskData={taskData} taskDataDateMap={taskDataDateMap} isFixedRows={false}
+                onChange={(param, dateTable) => syncProp(param, dateTable)} ref={calendar} date={date}
+                firstDayOfWeek={firstDay}></Calendar>
         </div>
 
-
-        <br/>
-        <br/>
-        <br/>
 
         {/*<Calendar*/}
         {/*    taskData={taskData} taskDataDateMap={taskDataDateMap}*/}

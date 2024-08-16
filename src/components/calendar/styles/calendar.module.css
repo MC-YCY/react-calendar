@@ -32,6 +32,9 @@
     justify-content: center;
     user-select: none;
 }
+.calendar-row-cell-active{
+    outline-color:#1677ff;
+}
 
 .calendar-row-cell-noMonth {
     color: #9999998a;
@@ -101,6 +104,9 @@
     position: absolute;
     top: var(--top);
 }
+.toggle .calendar-row-open .calendar-row-cell-rect {
+    outline-color: #1677ff;
+}
 
 .open .calendar-table,
 .close .calendar-table{
@@ -113,8 +119,5 @@
     top: 0;
     z-index: 99;
     background: white;
-}
-.calendar-row-open .calendar-row-cell-rect {
-    outline-color: #1677ff;
 }
 
