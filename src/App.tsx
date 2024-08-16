@@ -1,5 +1,5 @@
 import {FC, useState, useRef} from 'react';
-import Calendar,{CalendarRefType,CalendarChangeParamType,DateTableType} from './components/calendar/calendar';
+import Calendar,{CalendarRefType,CalendarChangeParamType,DateTableType} from './components/calendar';
 import styles from './style.module.css';
 
 const App: FC = () => {

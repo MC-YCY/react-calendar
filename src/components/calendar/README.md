@@ -1,8 +1,28 @@
-# react typescript vite
-一个用来回顾react，ts的仓库，顺便做一个日历组件
+# 项目配置css modules
+- vite示例
+```js
+import { defineConfig } from 'vite'
+import react from '@vitejs/plugin-react'
 
-![这是图片](./src/assets/demo.png)
-
+export default defineConfig({
+  plugins: [react()],
+  css: {
+    modules: {
+      localsConvention: 'camelCaseOnly' // Optional, to ensure camelCase conversion
+    }
+  }
+})
+```
+- 基本使用
+```js
+import { FC } from "react";
+const App:FC = () =>{
+    return <>
+        <Calendar date={new Date()} firstDayOfWeek={1}></Calendar>
+    </>
+} 
+```
+    
 # calendar
 ## props
 | 属性               | 类型                                                      | 说明                                        |
@@ -25,14 +45,4 @@
 | customWeek | customWeek?:(arg0:weekDataItemType)=>JSX.Element | 自定义渲染周内容，参数内含有Date日期对象week的index |
 | customDay  | customDay?:(arg0:dateTableCell)=>JSX.Element     | 自定展示日期每天的内容，返回每天的对象              |
 
-# 后续
-- 后面加入，props.data用来映射 customDay(dateTableCell)
-- 加上拖动事件交互
 
-# npm上传包指令
-```
-npm login
-
-npm publish
-```
-每次更新修改package.json version

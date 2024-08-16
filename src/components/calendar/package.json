@@ -1,0 +1,23 @@
+{
+  "name": "sa-calendar-react",
+  "version": "1.0.2",
+  "description": "react-calendar mouse-calendar flod calendar 折叠日历 react日历",
+  "main": "calendar.tsx",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://gitee.com/yin-chunyang/react-calendar/tree/calendar-toggle/"
+  },
+  "keywords": [
+    "react-calendar",
+    "mouse-calendar",
+    "折叠日历",
+    "收缩日历",
+    "折叠为一周日历"
+  ],
+  "author": "春秋半夏",
+  "license": "ISC",
+  "devDependencies": {}
+}
