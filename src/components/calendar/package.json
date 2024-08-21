@@ -1,6 +1,6 @@
 {
   "name": "sa-calendar-react",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "react-calendar mouse-calendar flod calendar 折叠日历 react日历",
   "main": "calendar.tsx",
   "scripts": {

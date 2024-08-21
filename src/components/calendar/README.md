@@ -1,5 +1,5 @@
-# 项目配置css modules
-- vite示例
+**使用该组件需要配置 css modules**
+- vite配置css modules示例：
 ```js
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
@@ -13,16 +13,23 @@ export default defineConfig({
   }
 })
 ```
-- 基本使用
+
+**基本使用**
+```
+npm i sa-calendar-react
+```
 ```js
 import { FC } from "react";
+import Calendar from 'sa-calendar-react';
 const App:FC = () =>{
     return <>
         <Calendar date={new Date()} firstDayOfWeek={1}></Calendar>
     </>
 } 
+export default App;
 ```
-    
+**更多例子：** https://gitee.com/yin-chunyang/react-calendar/blob/calendar-toggle/src/App.tsx
+
 # calendar
 ## props
 | 属性               | 类型                                                      | 说明                                        |
