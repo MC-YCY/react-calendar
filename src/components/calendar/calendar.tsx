@@ -18,16 +18,13 @@ const Calendar = forwardRef<refMethods, CalendarProps>((props, ref) => {
         setTableHeight((props.cellHeight ? props.cellHeight : defaultProps.cellHeight) * data.length);
         props.onChange && props.onChange(prop, data);
     }
-
     useEffect(() => {
         setDate(props);
         setOpen(props.open);
     }, [props]);
-
     useImperativeHandle(ref, () => ({
         dateTable: DayList,
     }));
-
     const setStyleCellHeight = (): Record<string, any> => {
         let cellH: string | null;
         if ('open' in props) {
@@ -54,8 +51,6 @@ const Calendar = forwardRef<refMethods, CalendarProps>((props, ref) => {
             '--rows-len': DayList.length
         }
     }
-
-
     const [isDown, setIsDown] = useState<boolean>(false);
     const [mouseEvent, setMouseEvent] = useState<any>({
         startY: 0,
@@ -67,7 +62,7 @@ const Calendar = forwardRef<refMethods, CalendarProps>((props, ref) => {
     const calendarTable = useRef<HTMLDivElement>(null);
     const calendarLayer = useRef<HTMLDivElement>(null);
     const mouseDown = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-        if(!('open' in props)) return;
+        if (!('open' in props)) return;
         setIsDown(true);
         setMoveNum(0);
         mouseEvent.startY = event.pageY;
@@ -75,7 +70,7 @@ const Calendar = forwardRef<refMethods, CalendarProps>((props, ref) => {
         setMouseEvent(deepClone(mouseEvent));
         setClearTransition(false);
     }
-    const mouseUp = (_:any, record: any) => {
+    const mouseUp = (_: any, record: any) => {
         setIsDown(false);
         mouseEvent.endY = _.clientY;
         mouseEvent.moveY = 0;
@@ -83,20 +78,20 @@ const Calendar = forwardRef<refMethods, CalendarProps>((props, ref) => {
         if (moveNum < 5) {
             props.onClick && props.onClick(record);
         } else {
-            if(!props.cellHeight) return;
-            if(!calendarTable.current) return;
-            if(!calendarLayer.current) return;
+            if (!props.cellHeight) return;
+            if (!calendarTable.current) return;
+            if (!calendarLayer.current) return;
             let dif = mouseEvent.startY - mouseEvent.endY;
-            if(dif > props.cellHeight){
+            if (dif > props.cellHeight) {
                 setOpen(false);
                 calendarLayer.current.style.setProperty('--top', 'var(--hideTableHeight)');
-                calendarLayer.current.style.setProperty('--height','var(--cellHeight)' );
-            }else{
+                calendarLayer.current.style.setProperty('--height', 'var(--cellHeight)');
+            } else {
                 setOpen(true);
                 calendarLayer.current.style.setProperty('--top', '0');
                 calendarLayer.current.style.setProperty('--height', 'var(--tableHeight)');
             }
-            if(open != null){
+            if (open != null) {
                 props.onToggle && props.onToggle(open);
             }
         }
@@ -114,7 +109,7 @@ const Calendar = forwardRef<refMethods, CalendarProps>((props, ref) => {
             let offsetY = event.pageY - mouseEvent.startY;
             let dif = event.pageY - mouseEvent.startY;
 
-            if(open){
+            if (open) {
                 // 滑动中如果已经到最顶部就让toggle(visible)为true收起状态
                 if (offsetY < -(tableHeight - props.cellHeight)) {
                     offsetY = -(tableHeight - props.cellHeight);
@@ -123,7 +118,7 @@ const Calendar = forwardRef<refMethods, CalendarProps>((props, ref) => {
                 if (dif > 0) {
                     offsetY = 0;
                 }
-            }else{
+            } else {
                 if (dif < 0) {
                     offsetY = 0;
                 }
@@ -147,7 +142,6 @@ const Calendar = forwardRef<refMethods, CalendarProps>((props, ref) => {
             calendarLayer.current.style.setProperty('--height', tableHeight + offsetY + 'px');
         }
     }
-
     const propsOpenToClassName = () => {
         if ('open' in props) {
             let openClassName = `${open ? styles.open : styles.close}`;
@@ -156,7 +150,6 @@ const Calendar = forwardRef<refMethods, CalendarProps>((props, ref) => {
             return `${styles.calendarLayer}`
         }
     }
-
     return <div className={styles.calendar}>
         <CalendarWeek firstDayOfWeek={props.firstDayOfWeek} customWeek={props.customWeek}></CalendarWeek>
         <div className={propsOpenToClassName()} style={setStyleCellHeight()} ref={calendarLayer}>
@@ -175,7 +168,6 @@ const Calendar = forwardRef<refMethods, CalendarProps>((props, ref) => {
         </div>
     </div>
 })
-
 export default Calendar;
 export type CalendarRefType = refMethods;
 export type CalendarChangeParamType = CalendarChangeParam;
